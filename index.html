@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mohammed Mohideen Saajid | Flutter Developer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: {
+                            900: '#0a0a0f',
+                            800: '#12121a',
+                            700: '#1e1e2e',
+                        },
+                        brand: {
+                            blue: '#3b82f6',
+                            cyan: '#06b6d4',
+                            glow: '#2563eb',
+                        }
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0a0a0f;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e1e2e;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3b82f6;
+        }
+
+        /* Glassmorphism Utilities */
+        .glass {
+            background: rgba(30, 30, 46, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .glass-card {
+            background: linear-gradient(145deg, rgba(30, 30, 46, 0.6) 0%, rgba(18, 18, 26, 0.8) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(59, 130, 246, 0.4);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px -15px rgba(37, 99, 235, 0.2);
+        }
+
+        /* Text Gradient */
+        .text-gradient {
+            background: linear-gradient(135deg, #60a5fa 0%, #22d3ee 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Cursor Effect */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #3b82f6;
+        }
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(59, 130, 246, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+        
+        /* Hover effect for cursor */
+        body:hover .cursor-outline.hovered {
+            width: 80px;
+            height: 80px;
+            background-color: rgba(59, 130, 246, 0.1);
+            border-color: transparent;
+        }
+
+        /* Reveal Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Skill Bar Animation */
+        .skill-track {
+            background: rgba(255,255,255,0.05);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+        .skill-fill {
+            width: 0;
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #06b6d4);
+            border-radius: 999px;
+            transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-blue-500 selection:text-white">
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="cursor-outline hidden md:block"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 top-0 transition-all duration-300" id="navbar">
+        <div class="glass border-b border-white/5">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-20">
+                    <div class="flex-shrink-0">
+                        <a href="#" class="text-2xl font-display font-bold tracking-tighter text-white group">
+                            SA<span class="text-blue-500 group-hover:text-cyan-400 transition-colors">AJID</span>.
+                        </a>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-8">
+                            <a href="#home" class="nav-link text-gray-300 hover:text-white hover:bg-white/5 px-3 py-2 rounded-md text-sm font-medium transition-all">Home</a>
+                            <a href="#about" class="nav-link text-gray-300 hover:text-white hover:bg-white/5 px-3 py-2 rounded-md text-sm font-medium transition-all">About</a>
+                            <a href="#projects" class="nav-link text-gray-300 hover:text-white hover:bg-white/5 px-3 py-2 rounded-md text-sm font-medium transition-all">Projects</a>
+                            <a href="#skills" class="nav-link text-gray-300 hover:text-white hover:bg-white/5 px-3 py-2 rounded-md text-sm font-medium transition-all">Skills</a>
+                            <a href="#contact" class="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2 rounded-full text-sm font-medium transition-all transform hover:scale-105 shadow-lg shadow-blue-500/30">Contact</a>
+                        </div>
+                    </div>
+                    <!-- Mobile menu button -->
+                    <div class="md:hidden">
+                        <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none">
+                            <i class="fas fa-bars text-2xl"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div class="md:hidden hidden glass border-b border-white/10" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#home" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="#about" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">About</a>
+                <a href="#projects" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Projects</a>
+                <a href="#skills" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Skills</a>
+                <a href="#contact" class="text-blue-400 hover:text-blue-300 block px-3 py-2 rounded-md text-base font-medium">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+        <!-- Background Elements -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
+            <div class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] animate-blob"></div>
+            <div class="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-cyan-600/10 rounded-full blur-[120px] animate-blob animation-delay-2000"></div>
+            <div class="absolute top-[40%] left-[40%] w-[300px] h-[300px] bg-purple-600/10 rounded-full blur-[100px] animate-blob animation-delay-4000"></div>
+            
+            <!-- Grid Pattern -->
+            <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImEiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTTAgNDBoNDBWMEgwVjQwWiIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0wIDQwaDQwVjBIMFY0MFoiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wMykiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjYSkiLz48L3N2Zz4=')] opacity-30"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <!-- Text Content -->
+                <div class="order-2 lg:order-1 text-center lg:text-left">
+                    <div class="inline-block px-4 py-1.5 mb-6 rounded-full border border-blue-500/30 bg-blue-500/10 backdrop-blur-sm">
+                        <span class="text-blue-400 text-sm font-semibold tracking-wide uppercase">Flutter & Dart Developer</span>
+                    </div>
+                    <h1 class="text-5xl md:text-7xl font-display font-bold mb-6 leading-tight">
+                        Mohammed <br>
+                        <span class="text-gradient">Mohideen Saajid</span>
+                    </h1>
+                    <p class="text-xl text-gray-400 mb-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                        Building real-world mobile applications with Flutter and turning ideas into impactful solutions.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <a href="#projects" class="group relative px-8 py-4 bg-blue-600 rounded-full font-semibold text-white overflow-hidden shadow-lg shadow-blue-600/30 transition-all hover:scale-105">
+                            <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></div>
+                            <span class="relative flex items-center gap-2">
+                                View Projects <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                            </span>
+                        </a>
+                        <a href="#contact" class="px-8 py-4 rounded-full font-semibold text-white border border-white/10 bg-white/5 backdrop-blur-sm hover:bg-white/10 transition-all hover:border-blue-500/50">
+                            Contact Me
+                        </a>
+                    </div>
+                    
+                    <!-- Social Proof / Quick Links -->
+                    <div class="mt-12 flex items-center justify-center lg:justify-start gap-6 text-gray-400">
+                        <a href="https://github.com/mdsaajid" target="_blank" class="hover:text-white transition-colors text-2xl"><i class="fab fa-github"></i></a>
+                        <a href="https://www.linkedin.com/in/mohammed-saajid-438961355" target="_blank" class="hover:text-white transition-colors text-2xl"><i class="fab fa-linkedin"></i></a>
+                        <a href="mailto:mdsaajid2006@gmail.com" class="hover:text-white transition-colors text-2xl"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+
+                <!-- Image Content -->
+                <div class="order-1 lg:order-2 flex justify-center relative">
+                    <div class="relative w-72 h-72 md:w-96 md:h-96">
+                        <!-- Decorative Rings -->
+                        <div class="absolute inset-0 border-2 border-blue-500/20 rounded-full animate-[spin_10s_linear_infinite]"></div>
+                        <div class="absolute inset-4 border-2 border-cyan-500/20 rounded-full animate-[spin_15s_linear_infinite_reverse]"></div>
+                        
+                        <!-- Image Container -->
+                        <div class="absolute inset-0 rounded-full overflow-hidden border-4 border-white/5 shadow-2xl shadow-blue-500/20">
+                            <img src="https://raw.githubusercontent.com/mdsaajid/mdsaajid.github.io/refs/heads/main/img/saajid.jpeg" 
+                                 alt="Mohammed Mohideen Saajid" 
+                                 class="w-full h-full object-cover hover:scale-110 transition-transform duration-700">
+                        </div>
+                        
+                        <!-- Floating Badge -->
+                        <div class="absolute -bottom-4 -right-4 glass px-6 py-3 rounded-2xl flex items-center gap-3 animate-bounce" style="animation-duration: 3s;">
+                            <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                            <span class="text-sm font-semibold text-white">Available for Work</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll Down Indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <a href="#about" class="text-gray-500 hover:text-white transition-colors">
+                <i class="fas fa-chevron-down text-2xl"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl md:text-5xl font-display font-bold mb-4">About <span class="text-gradient">Me</span></h2>
+                <div class="w-20 h-1 bg-blue-600 mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="reveal glass-card p-8 rounded-3xl relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-blue-600/10 rounded-full blur-2xl -mr-16 -mt-16 transition-all group-hover:bg-blue-600/20"></div>
+                    <h3 class="text-2xl font-bold mb-6 text-white">Who am I?</h3>
+                    <div class="space-y-4 text-gray-400 leading-relaxed">
+                        <p>
+                            I am a passionate <span class="text-blue-400 font-semibold">Flutter and Dart developer</span> currently pursuing my B.E (3rd Year) at Kings Engineering College.
+                        </p>
+                        <p>
+                            I enjoy building real-world applications that solve practical problems and create meaningful impact. My focus is on developing mobile apps using Flutter, and I am continuously improving my skills in UI/UX design and frontend technologies.
+                        </p>
+                        <p>
+                            My goal is to become a professional Flutter developer and contribute to innovative and scalable applications.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-6 reveal">
+                    <div class="glass-card p-6 rounded-2xl flex items-start gap-4 group cursor-default">
+                        <div class="w-12 h-12 rounded-xl bg-blue-600/20 flex items-center justify-center text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                            <i class="fas fa-graduation-cap text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-bold text-white mb-1">Education</h4>
+                            <p class="text-gray-400 text-sm">B.E Computer Science (3rd Year)<br>Kings Engineering College</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-2xl flex items-start gap-4 group cursor-default">
+                        <div class="w-12 h-12 rounded-xl bg-cyan-600/20 flex items-center justify-center text-cyan-400 group-hover:bg-cyan-600 group-hover:text-white transition-all">
+                            <i class="fas fa-bullseye text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-bold text-white mb-1">Objective</h4>
+                            <p class="text-gray-400 text-sm">To build scalable, user-friendly mobile applications that solve real-world problems.</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-2xl flex items-start gap-4 group cursor-default">
+                        <div class="w-12 h-12 rounded-xl bg-purple-600/20 flex items-center justify-center text-purple-400 group-hover:bg-purple-600 group-hover:text-white transition-all">
+                            <i class="fas fa-code text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-bold text-white mb-1">Focus</h4>
+                            <p class="text-gray-400 text-sm">UI/UX Design, Mobile Architecture, Clean Code</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-24 relative bg-dark-800/50">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoNTksMTMwLDI0NiwgMC4wNSkiLz48L3N2Zz4=')]"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl md:text-5xl font-display font-bold mb-4">Featured <span class="text-gradient">Projects</span></h2>
+                <div class="w-20 h-1 bg-blue-600 mx-auto rounded-full mb-4"></div>
+                <p class="text-gray-400 max-w-2xl mx-auto">Here are some of my recent works that showcase my skills in Flutter development.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Project 1 -->
+                <div class="group relative rounded-3xl overflow-hidden glass-card reveal">
+                    <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-purple-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="p-8 relative z-10 h-full flex flex-col">
+                        <div class="flex justify-between items-start mb-6">
+                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white text-2xl shadow-lg shadow-blue-500/20">
+                                <i class="fas fa-gamepad"></i>
+                            </div>
+                            <a href="https://github.com/mdsaajid/skribblepro--game" target="_blank" class="text-gray-400 hover:text-white transition-colors text-xl">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors">SkribblePro Game</h3>
+                        <p class="text-gray-400 mb-6 flex-grow">
+                            A multiplayer drawing and guessing game inspired by Skribbl, designed to create an interactive and fun user experience.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="px-3 py-1 rounded-full text-xs font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20">Flutter</span>
+                            <span class="px-3 py-1 rounded-full text-xs font-medium bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">Dart</span>
+                            <span class="px-3 py-1 rounded-full text-xs font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">Multiplayer</span>
+                        </div>
+                        <ul class="space-y-2 text-sm text-gray-400 mb-6">
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-green-500 text-xs"></i> Real-time drawing and guessing</li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-green-500 text-xs"></i> Interactive UI</li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-green-500 text-xs"></i> Multiplayer game logic</li>
+                        </ul>
+                        <a href="https://github.com/mdsaajid/skribblepro--game" target="_blank" class="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 font-semibold transition-colors">
+                            View Project <i class="fas fa-arrow-right text-sm"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="group relative rounded-3xl overflow-hidden glass-card reveal" style="transition-delay: 100ms;">
+                    <div class="absolute inset-0 bg-gradient-to-br from-purple-600/20 to-pink-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="p-8 relative z-10 h-full flex flex-col">
+                        <div class="flex justify-between items-start mb-6">
+                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-2xl shadow-lg shadow-purple-500/20">
+                                <i class="fas fa-cut"></i>
+                            </div>
+                            <a href="https://github.com/mdsaajid/nibras" target="_blank" class="text-gray-400 hover:text-white transition-colors text-xl">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-3 group-hover:text-purple-400 transition-colors">Nibras – Tailoring Shop</h3>
+                        <p class="text-gray-400 mb-6 flex-grow">
+                            A personal project developed for my father's tailoring business to improve digital presence and customer interaction.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="px-3 py-1 rounded-full text-xs font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">Flutter</span>
+                            <span class="px-3 py-1 rounded-full text-xs font-medium bg-pink-500/10 text-pink-400 border border-pink-500/20">Business</span>
+                            <span class="px-3 py-1 rounded-full text-xs font-medium bg-orange-500/10 text-orange-400 border border-orange-500/20">Real-world</span>
+                        </div>
+                        <ul class="space-y-2 text-sm text-gray-400 mb-6">
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-green-500 text-xs"></i> Business-focused application</li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-green-500 text-xs"></i> Clean and simple UI</li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-green-500 text-xs"></i> Real-world use case</li>
+                        </ul>
+                        <a href="https://github.com/mdsaajid/nibras" target="_blank" class="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 font-semibold transition-colors">
+                            View Project <i class="fas fa-arrow-right text-sm"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-24 relative overflow-hidden">
+        <!-- Decorative Blobs -->
+        <div class="absolute top-1/2 left-0 w-96 h-96 bg-blue-600/10 rounded-full blur-[100px] -translate-y-1/2"></div>
+        <div class="absolute top-1/2 right-0 w-96 h-96 bg-cyan-600/10 rounded-full blur-[100px] -translate-y-1/2"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl md:text-5xl font-display font-bold mb-4">Technical <span class="text-gradient">Skills</span></h2>
+                <div class="w-20 h-1 bg-blue-600 mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <!-- Coding Skills -->
+                <div class="reveal">
+                    <h3 class="text-xl font-bold text-white mb-8 flex items-center gap-3">
+                        <i class="fas fa-code text-blue-500"></i> Programming & Development
+                    </h3>
+                    <div class="space-y-6">
+                        <!-- Skill Item -->
+                        <div class="group">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-gray-300 font-medium">Dart</span>
+                                <span class="text-blue-400 font-mono">90%</span>
+                            </div>
+                            <div class="skill-track h-2 w-full">
+                                <div class="skill-fill" data-width="90%"></div>
+                            </div>
+                        </div>
+                        <!-- Skill Item -->
+                        <div class="group">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-gray-300 font-medium">Flutter</span>
+                                <span class="text-blue-400 font-mono">85%</span>
+                            </div>
+                            <div class="skill-track h-2 w-full">
+                                <div class="skill-fill" data-width="85%"></div>
+                            </div>
+                        </div>
+                        <!-- Skill Item -->
+                        <div class="group">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-gray-300 font-medium">HTML/CSS</span>
+                                <span class="text-blue-400 font-mono">75%</span>
+                            </div>
+                            <div class="skill-track h-2 w-full">
+                                <div class="skill-fill" data-width="75%"></div>
+                            </div>
+                        </div>
+                        <!-- Skill Item -->
+                        <div class="group">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-gray-300 font-medium">JavaScript</span>
+                                <span class="text-blue-400 font-mono">60%</span>
+                            </div>
+                            <div class="skill-track h-2 w-full">
+                                <div class="skill-fill" data-width="60%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Other Skills -->
+                <div class="reveal" style="transition-delay: 100ms;">
+                    <h3 class="text-xl font-bold text-white mb-8 flex items-center gap-3">
+                        <i class="fas fa-layer-group text-cyan-500"></i> Other Expertise
+                    </h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="glass-card p-4 rounded-xl flex items-center gap-3 hover:border-cyan-500/30 transition-colors">
+                            <div class="w-10 h-10 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400">
+                                <i class="fas fa-paint-brush"></i>
+                            </div>
+                            <span class="text-gray-300 font-medium">UI/UX Design</span>
+                        </div>
+                        <div class="glass-card p-4 rounded-xl flex items-center gap-3 hover:border-cyan-500/30 transition-colors">
+                            <div class="w-10 h-10 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <span class="text-gray-300 font-medium">Mobile Dev</span>
+                        </div>
+                        <div class="glass-card p-4 rounded-xl flex items-center gap-3 hover:border-cyan-500/30 transition-colors">
+                            <div class="w-10 h-10 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <span class="text-gray-300 font-medium">Problem Solving</span>
+                        </div>
+                        <div class="glass-card p-4 rounded-xl flex items-center gap-3 hover:border-cyan-500/30 transition-colors">
+                            <div class="w-10 h-10 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400">
+                                <i class="fas fa-git-alt"></i>
+                            </div>
+                            <span class="text-gray-300 font-medium">Version Control</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 p-6 glass-card rounded-2xl border-l-4 border-blue-500">
+                        <h4 class="text-white font-bold mb-2">Career Objective</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            To become a skilled Flutter developer and build scalable, user-friendly mobile applications that solve real-world problems.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 relative">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden reveal">
+                <!-- Background Glow -->
+                <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-full h-full bg-gradient-to-b from-blue-600/10 to-transparent pointer-events-none"></div>
+                
+                <div class="text-center mb-12 relative z-10">
+                    <h2 class="text-3xl md:text-4xl font-display font-bold mb-4">Let's Work <span class="text-gradient">Together</span></h2>
+                    <p class="text-gray-400">Have a project in mind? Feel free to reach out.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
+                    <a href="mailto:mdsaajid2006@gmail.com" class="group flex flex-col items-center p-6 rounded-2xl bg-white/5 hover:bg-blue-600/20 border border-white/5 hover:border-blue-500/50 transition-all duration-300">
+                        <div class="w-14 h-14 rounded-full bg-blue-600/20 text-blue-400 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h3 class="text-white font-semibold mb-1">Email</h3>
+                        <p class="text-gray-400 text-sm text-center break-all">mdsaajid2006@gmail.com</p>
+                    </a>
+
+                    <a href="https://www.linkedin.com/in/mohammed-saajid-438961355" target="_blank" class="group flex flex-col items-center p-6 rounded-2xl bg-white/5 hover:bg-blue-600/20 border border-white/5 hover:border-blue-500/50 transition-all duration-300">
+                        <div class="w-14 h-14 rounded-full bg-blue-600/20 text-blue-400 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+                            <i class="fab fa-linkedin-in"></i>
+                        </div>
+                        <h3 class="text-white font-semibold mb-1">LinkedIn</h3>
+                        <p class="text-gray-400 text-sm text-center">Connect with me</p>
+                    </a>
+
+                    <a href="https://github.com/mdsaajid" target="_blank" class="group flex flex-col items-center p-6 rounded-2xl bg-white/5 hover:bg-blue-600/20 border border-white/5 hover:border-blue-500/50 transition-all duration-300">
+                        <div class="w-14 h-14 rounded-full bg-blue-600/20 text-blue-400 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+                            <i class="fab fa-github"></i>
+                        </div>
+                        <h3 class="text-white font-semibold mb-1">GitHub</h3>
+                        <p class="text-gray-400 text-sm text-center">View my code</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 border-t border-white/5 bg-dark-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="text-gray-500 text-sm">
+                &copy; 2026 Mohammed Mohideen Saajid. All rights reserved.
+            </div>
+            <div class="flex gap-6">
+                <a href="https://github.com/mdsaajid" target="_blank" class="text-gray-500 hover:text-white transition-colors"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/mohammed-saajid-438961355" target="_blank" class="text-gray-500 hover:text-white transition-colors"><i class="fab fa-linkedin"></i></a>
+                <a href="mailto:mdsaajid2006@gmail.com" class="text-gray-500 hover:text-white transition-colors"><i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Custom Cursor Logic
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+        
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+            
+            // Add slight delay to outline for fluid feel
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        // Add hover effect to interactive elements
+        const interactiveElements = document.querySelectorAll('a, button, .glass-card');
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursorOutline.classList.add('hovered');
+            });
+            el.addEventListener('mouseleave', () => {
+                cursorOutline.classList.remove('hovered');
+            });
+        });
+
+        // Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when clicking a link
+        menu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-lg');
+                navbar.querySelector('.glass').classList.add('bg-dark-800/80');
+            } else {
+                navbar.classList.remove('shadow-lg');
+                navbar.querySelector('.glass').classList.remove('bg-dark-800/80');
+            }
+        });
+
+        // Scroll Reveal Animation
+        const revealElements = document.querySelectorAll('.reveal');
+        const skillFills = document.querySelectorAll('.skill-fill');
+
+        const revealOnScroll = () => {
+            const windowHeight = window.innerHeight;
+            const elementVisible = 100;
+
+            revealElements.forEach((reveal) => {
+                const elementTop = reveal.getBoundingClientRect().top;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveal.classList.add('active');
+                }
+            });
+
+            // Animate Skill Bars
+            skillFills.forEach((fill) => {
+                const elementTop = fill.getBoundingClientRect().top;
+                if (elementTop < windowHeight - elementVisible) {
+                    const width = fill.getAttribute('data-width');
+                    fill.style.width = width;
+                }
+            });
+        };
+
+        window.addEventListener('scroll', revealOnScroll);
+        // Trigger once on load
+        revealOnScroll();
+
+        // Smooth Scroll for Anchor Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
